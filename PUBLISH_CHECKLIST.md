@@ -1,75 +1,99 @@
-# Что сделать перед публикацией (чек-лист)
+# Публикация мода: что заливать, что настроить, что проверить
 
-Репозиторий полностью готов к заливке: собирается, тестируется и пакует релиз сам.
-Ниже — мелочи, которые стоит поправить под себя, и порядок публикации.
+Актуально для версии **1.1.1**. Репозиторий собирается, тестируется и пакует релиз сам —
+вручную ничего собирать не нужно.
 
-## 1. Заменить подставные данные (3 места)
+## 1. Три архива в релизе (имена не менять!)
 
-| Файл | Что заменить |
-|---|---|
-| `LICENSE` | `<ВАШ НИК / YOUR NAME>` → твой ник или имя |
-| `P5R.SocialStatMultiplier/ModConfig.json` | `"ModAuthor": "Arena.ai"` → твой ник |
-| `P5R.SocialStatMultiplier/ModConfig.en.json` | `"ModAuthor": "Arena.ai"` → твой ник |
+`build.sh` кладёт в `dist/` три файла. Имена у них **постоянные, без номера версии** — это
+принципиально: они прописаны в `PluginData.GitHubRelease.AssetFileName` внутри самого мода, и
+именно по этим именам Reloaded-II ищет обновление в свежем релизе. Если добавить в имя версию
+(как было в 1.1.0: `..._v1.1.0_RU_EN.zip`), автообновление сломается на следующем релизе.
 
-## 2. Создать репозиторий и залить код
+| Архив | Что внутри | Кому |
+|---|---|---|
+| `P5R.SocialStatMultiplier_RU.zip` | мод (русская версия) + `ЧИТАЙ_МЕНЯ.txt` + маркер `RELOADED` | автообновление RU, 1-click на GameBanana |
+| `P5R.SocialStatMultiplier_EN.zip` | мод (английская версия) + `README.md` + маркер `RELOADED` | автообновление EN, 1-click на GameBanana |
+| `P5R.SocialStatMultiplier_RU_EN.zip` | обе версии + исходники + тесты | для страницы релиза, если хочется всё сразу |
 
-```bash
-cd P5R_SocialStatMultiplier_repo
-git init -b main
-git add .
-git commit -m "Social Stat Multiplier 1.1.0 — Reloaded-II mod for Persona 5 Royal"
-git remote add origin https://github.com/ТВОЙ_НИК/p5r-socialstatmultiplier.git
-git push -u origin main
-```
+Маркер `RELOADED` — пустой файл в корне одиночных архивов: без него на GameBanana не появится
+кнопка «1-click install». Пакер кладёт его сам, вручную добавлять не надо.
 
-(Или создай пустой репозиторий на GitHub через веб-интерфейс и загрузи файлы перетаскиванием —
-`.github/workflows/build.yml` тоже загрузится и заработает.)
+## 2. Автообновление (уже настроено)
 
-После первого пуша открой вкладку **Actions** — workflow «Build» соберёт обе версии мода, прогонит
-19 автотестов и приложит к сборке готовый архив.
-
-## 3. Выпустить релиз
-
-```bash
-git tag v1.1.0
-git push origin v1.1.0
-```
-
-По тегу workflow сам создаст релиз `v1.1.0` и приложит к нему архив
-`P5R.SocialStatMultiplier_v1.1.0_RU_EN.zip`. Ссылку на релиз можно давать игрокам.
-
-## 4. (Необязательно) Автообновление мода из лоадера
-
-Чтобы Reloaded-II умел сам предлагать обновления, добавь в оба `ModConfig*.json` ссылку на
-репозиторий и блок GitHub-релиза (подставь свой ник и имя репозитория):
+В `P5R.SocialStatMultiplier/ModConfig.json` (RU) и `ModConfig.en.json` (EN):
 
 ```json
-  "ReleaseMetadataFileName": "P5R.SocialStatMultiplier.ReleaseMetadata.json",
-  "ProjectUrl": "https://github.com/ТВОЙ_НИК/p5r-socialstatmultiplier",
+  "ProjectUrl": "https://github.com/jkinbb/p5r-socialstatmultiplier",
   "PluginData": {
     "GitHubRelease": {
-      "UserName": "ТВОЙ_НИК",
+      "UserName": "jkinbb",
       "RepositoryName": "p5r-socialstatmultiplier",
       "UseReleaseTag": true,
-      "AssetFileName": "P5R.SocialStatMultiplier_v1.1.0_RU_EN.zip"
+      "AssetFileName": "P5R.SocialStatMultiplier_RU.zip"   // в EN — ..._EN.zip
     }
   }
 ```
 
-После этого в лоадере мод подхватит обновления из твоих релизов. Если публикуешь ещё и на
-GameBanana — там вместо `GitHubRelease` используется `PluginData.GameBanana` с `ItemType: "Mod"`
-и `ItemId` страницы.
+`UseReleaseTag: true` означает: номер новой версии лоадер берёт из тега релиза (`v1.1.1`).
+Поэтому важно, чтобы тег совпадал с `"ModVersion"` в `ModConfig.json` и с `<Version>` в
+`.csproj`. `pack_release.py` проверяет это на каждом прогоне и падает, если имена разъехались.
 
-## 5. (Необязательно) GameBanana
+## 3. Порядок выпуска версии
+
+1. Поднять версию в трёх местах: `P5R.SocialStatMultiplier/P5R.SocialStatMultiplier.csproj`
+   (`<Version>`), `ModConfig.json`, `ModConfig.en.json` (`"ModVersion"`).
+2. Добавить запись в `CHANGELOG.md`.
+3. Коммит и пуш в `main` → в Actions пройдёт сборка обеих версий и 19 автотестов.
+4. Тег и пуш тега:
+
+   ```bash
+   git tag v1.1.1
+   git push origin v1.1.1
+   ```
+
+5. Actions сам создаст релиз `v1.1.1` и приложит к нему три архива и `md5.txt`.
+   Если релиз нужно оформить вручную — приложи те же три файла из `dist/`.
+6. Вставить в описание релиза тексты (RU + EN): что нового, установка, обновление.
+
+## 4. GameBanana (по желанию, но это основная площадка модов P5R)
 
 1. Создать страницу мода (категория Mod), **доступ — приватный**, пока не готово.
-2. Взять `ItemId` из адреса страницы и вписать его в `ModConfig.json` (см. пункт 4).
-3. В архив добавить пустой файл-маркер `RELOADED` в корень — тогда на сайте появится кнопка
-   «1-click install» для Reloaded-II.
-4. Загрузить архив в раздел Files и открыть страницу.
+2. Взять `ItemId` из адреса страницы и вписать в `ModConfig.json` / `ModConfig.en.json`
+   рядом с GitHub-блоком:
 
-## 6. Что НЕ надо выкладывать
+   ```json
+   "PluginData": {
+     "GitHubRelease": { "...": "..." },
+     "GameBanana": { "ItemType": "Mod", "ItemId": 1234567 }
+   }
+   ```
 
-* Файлы игры, `.exe`, `.cpk`, извлечённые скрипты, русификатор, арты и логотипы Atlus/Sega.
-* Файлы из папки `dist/` в репозиторий коммитить не нужно (она в `.gitignore`) — они попадают
-  в Releases как артефакты.
+   (`ItemType`/`ItemId` — данные страницы мода на GameBanana; для автообновления с сайта.)
+3. Загрузить в раздел Files архивы: `P5R.SocialStatMultiplier_RU.zip` и
+   `P5R.SocialStatMultiplier_EN.zip` (оба с маркером `RELOADED`).
+4. Добавить описание (можно взять текст из `README.md` / `README_RU.md`) и скриншоты.
+5. Открыть страницу.
+
+## 5. Скриншоты
+
+Сейчас в README-разделе «Скриншоты» показывается иконка мода, а четыре картинки
+закомментированы. Что снять и с какими именами положить в `docs/img/` — расписано в
+`docs/img/README.md`. После добавления файлов снять комментарии в `README.md` и `README_RU.md`.
+Не хочется возиться — просто удали закомментированный блок.
+
+## 6. Что проверить после публикации
+
+* На странице релиза есть ровно три архива с постоянными именами (без версии).
+* `md5.txt` из релиза совпадает с локальным `dist/md5.txt`.
+* В лоадере у установленного мода появляется предложение обновиться (проверяется просто:
+  поставь предыдущую версию 1.1.0 и посмотри, увидит ли лоадер новый релиз).
+* В `ModConfig.json` внутри скачанного архива те же `ModVersion`, `ProjectUrl` и `AssetFileName`.
+
+## 7. Что НЕ надо выкладывать
+
+* Файлы игры: `.exe`, `.cpk`, извлечённые и изменённые скрипты `.BF`/`.BMD`, русификатор,
+  арты и логотипы Atlus/Sega. В репозитории и архивах — только собственный код и текст.
+* Папку `dist/` и `_stage/` коммитить не нужно (они в `.gitignore`) — они уезжают в Releases.
+* Файловый вариант множителя (правка скриптов игры) в публичный репозиторий не выкладывать:
+  это уже изменённые данные Atlus.

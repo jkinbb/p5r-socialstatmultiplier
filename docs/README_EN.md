@@ -16,6 +16,15 @@ and **no game files are modified** — it only works with the values the game al
    (it normally ships with Reloaded-II; if it is missing, install it from the mod list).
 5. Launch the game through Reloaded-II as usual.
 
+## Updating
+
+Automatic (do nothing): the mod is linked to this repository's releases — the launcher offers a
+new version when one appears and downloads the archive named `P5R.SocialStatMultiplier_EN.zip`.
+Your settings (`Config.json`) are kept.
+
+Manual: download the fresh archive from the Releases page and replace the folder
+`P5R.SocialStatMultiplier` in `<Reloaded-II>\Mods\`.
+
 ## Setting the multiplier
 
 * **In the launcher:** click the cog / *Configure* next to the mod → **Point multiplier** → a number from 1 to 10.

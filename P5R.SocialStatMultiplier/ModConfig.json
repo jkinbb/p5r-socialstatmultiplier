@@ -2,8 +2,8 @@
   "ModId": "P5R.SocialStatMultiplier",
   "ModName": "Множитель социальных очков",
   "ModAuthor": "jkinbb",
-  "ModVersion": "1.1.0",
-  "ModDescription": "Умножает все получаемые очки социальных характеристик (Знания, Смелость, Ловкость, Доброта, Обаяние). Множитель задаётся в настройках мода, включение/выключение — в любой момент.",
+  "ModVersion": "1.1.1",
+  "ModDescription": "Умножает все получаемые очки социальных характеристик (Знания, Смелость, Ловкость, Доброта, Обаяние). Множитель задаётся в настройках мода, включение/выключение — в любой момент. Файлы игры не изменяются.",
   "ModDll": "P5R.SocialStatMultiplier.dll",
   "ModIcon": "Preview.png",
   "ModR2RManagedDll32": "",
@@ -25,5 +25,13 @@
   "SupportedAppId": [
     "p5r.exe"
   ],
-  "ProjectUrl": ""
+  "ProjectUrl": "https://github.com/jkinbb/p5r-socialstatmultiplier",
+  "PluginData": {
+    "GitHubRelease": {
+      "UserName": "jkinbb",
+      "RepositoryName": "p5r-socialstatmultiplier",
+      "UseReleaseTag": true,
+      "AssetFileName": "P5R.SocialStatMultiplier_RU.zip"
+    }
+  }
 }

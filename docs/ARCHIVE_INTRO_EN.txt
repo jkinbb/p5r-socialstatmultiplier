@@ -34,6 +34,10 @@ or the file <Reloaded-II>\User\ModConfigs\P5R.SocialStatMultiplier\Config.json
 
 Settings are applied on the fly, no game restart required.
 
+If you installed the single-language archive (P5R.SocialStatMultiplier_EN.zip), the launcher
+will offer updates automatically; you can also download a fresh archive and replace the mod
+folder by hand. Settings are kept.
+
 Requires the Reloaded.Memory.SigScan.ReloadedII library mod (ships with Reloaded-II).
 No game files are modified: the mod only multiplies values in the game's memory and can be
 switched off at any moment.

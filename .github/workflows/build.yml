@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    name: Сборка RU + EN, тесты и архив
+    name: Сборка RU + EN, тесты и архивы
     runs-on: ubuntu-latest
 
     steps:
@@ -26,16 +26,29 @@ jobs:
       - name: Сборка, тесты и упаковка (build.sh)
         run: bash build.sh
 
-      - name: Загрузка архива как артефакт сборки
+      - name: Контрольные суммы архивов
+        run: cat dist/md5.txt
+
+      - name: Загрузка архивов как артефакт сборки
         uses: actions/upload-artifact@v4
         with:
           name: P5R.SocialStatMultiplier-archives
-          path: dist/*.zip
+          path: |
+            dist/*.zip
+            dist/md5.txt
           if-no-files-found: error
 
-      - name: Публикация релиза (только по тегу вида v1.2.3)
+      # Релиз создаётся по тегу вида v1.1.1.
+      # Архивы лежат в dist/ под ПОСТОЯННЫМИ именами (без версии) — это важно:
+      # именно эти имена прописаны в ModConfig.json для автообновления мода,
+      # поэтому они не должны меняться от релиза к релизу.
+      # Текст релиза (release notes) не генерируется автоматически — его
+      # вписывает владелец репозитория (см. PUBLISH_CHECKLIST.md).
+      - name: Публикация релиза (только по тегу вида v1.1.1)
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*.zip
-          generate_release_notes: true
+          files: |
+            dist/*.zip
+            dist/md5.txt
+          generate_release_notes: false
