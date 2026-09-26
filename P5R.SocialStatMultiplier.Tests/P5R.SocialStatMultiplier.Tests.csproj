@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ModDllDir Condition="'$(ModDllDir)' == ''">../_stage/RU</ModDllDir>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>P5R.SocialStatMultiplier.Tests</AssemblyName>
+    <RootNamespace>P5R.SocialStatMultiplier.Tests</RootNamespace>
+    <NoWarn>$(NoWarn);CS8632;CA1416</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Reloaded.Mod.Interfaces" Version="2.3.0" />
+    <PackageReference Include="Reloaded.Memory.SigScan.ReloadedII.Interfaces" Version="1.2.0" />
+    <Reference Include="P5R.SocialStatMultiplier">
+      <HintPath>$(ModDllDir)/P5R.SocialStatMultiplier.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

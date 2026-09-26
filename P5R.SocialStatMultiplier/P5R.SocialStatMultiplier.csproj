@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Deterministic>true</Deterministic>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>P5R.SocialStatMultiplier</AssemblyName>
+    <RootNamespace>P5R.SocialStatMultiplier</RootNamespace>
+    <Version>1.1.0</Version>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <!-- Язык сборки: RU (по умолчанию) или EN (-p:ModLang=EN).
+       Логика и код одинаковые, отличаются только тексты (см. Strings.cs),
+       файл ModConfig.json и иконка Preview.png. -->
+  <PropertyGroup>
+    <ModLang Condition="'$(ModLang)' == ''">RU</ModLang>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(ModLang)' == 'EN'">
+    <DefineConstants>$(DefineConstants);LANG_EN</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="P5R.SocialStatMultiplier.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Reloaded.Mod.Interfaces" Version="2.3.0" ExcludeAssets="runtime" />
+    <PackageReference Include="Reloaded.Memory.SigScan.ReloadedII.Interfaces" Version="1.2.0" ExcludeAssets="runtime" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ModConfig.json" />
+    <None Remove="ModConfig.en.json" />
+    <None Remove="Preview.png" />
+    <None Remove="Preview.en.png" />
+  </ItemGroup>
+
+  <!-- Русская версия -->
+  <ItemGroup Condition="'$(ModLang)' != 'EN'">
+    <Content Include="ModConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Preview.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!-- Английская версия: файлы с суффиксом .en кладутся в вывод под обычными именами -->
+  <ItemGroup Condition="'$(ModLang)' == 'EN'">
+    <Content Include="ModConfig.en.json" TargetPath="ModConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Preview.en.png" TargetPath="Preview.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,21 @@
+# сборка .NET
+bin/
+obj/
+_stage/
+dist/
+*.user
+
+# тестовые артефакты
+TestResults/
+*.trx
+
+# локальные настройки мода и релизные метаданные
+Config.json
+P5R.SocialStatMultiplier.ReleaseMetadata.json
+
+# редакторы и ОС
+.vs/
+.idea/
+.vscode/
+Thumbs.db
+desktop.ini

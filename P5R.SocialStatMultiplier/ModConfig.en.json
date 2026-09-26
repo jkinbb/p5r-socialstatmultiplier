@@ -1,0 +1,29 @@
+{
+  "ModId": "P5R.SocialStatMultiplier",
+  "ModName": "Social Stat Multiplier",
+  "ModAuthor": "jkinbb",
+  "ModVersion": "1.1.0",
+  "ModDescription": "Multiplies all social stat points you gain (Knowledge, Guts, Proficiency, Kindness, Charm). The multiplier is set in the mod's settings and the mod can be enabled or disabled at any time. No game files are modified.",
+  "ModDll": "P5R.SocialStatMultiplier.dll",
+  "ModIcon": "Preview.png",
+  "ModR2RManagedDll32": "",
+  "ModR2RManagedDll64": "",
+  "ModNativeDll32": "",
+  "ModNativeDll64": "",
+  "Tags": [
+    "Gameplay"
+  ],
+  "CanUnload": false,
+  "HasExports": false,
+  "IsLibrary": false,
+  "ReleaseMetadataFileName": "",
+  "IsUniversalMod": false,
+  "ModDependencies": [
+    "Reloaded.Memory.SigScan.ReloadedII"
+  ],
+  "OptionalDependencies": [],
+  "SupportedAppId": [
+    "p5r.exe"
+  ],
+  "ProjectUrl": ""
+}

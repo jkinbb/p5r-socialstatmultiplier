@@ -1,0 +1,45 @@
+ARCHIVE: SOCIAL STAT MULTIPLIER for Persona 5 Royal (Reloaded-II mod)
+=====================================================================
+
+This archive contains TWO versions of the mod. Functionally they are identical;
+only the language of the user-visible text differs (mod name in the launcher,
+setting labels, log messages):
+
+    EN_English_version\   — English version (launcher name: Social Stat Multiplier)
+    RU_Русская_версия\    — Russian version (launcher name: Множитель социальных очков)
+
+Install ONE of them.
+
+Quick install:
+  1) unpack the archive;
+  2) open the folder of the version you want (EN_English_version or RU_Русская_версия);
+  3) copy the folder P5R.SocialStatMultiplier from its Mods subfolder into
+     <Reloaded-II>\Mods\;
+  4) enable the mod in the launcher list and start the game.
+
+Full instructions (install, multiplier setting, enabling/disabling on the fly, what is
+multiplied, limits and troubleshooting) are inside the chosen folder:
+
+    EN_English_version\README.md          — English
+    RU_Русская_версия\ЧИТАЙ_МЕНЯ.txt      — Russian
+
+How to change the multiplier: the cog / "Configure" button next to the mod in the launcher,
+or the file <Reloaded-II>\User\ModConfigs\P5R.SocialStatMultiplier\Config.json
+
+    {
+      "Enabled": true,
+      "Multiplier": 2,
+      "VerboseLog": false
+    }
+
+Settings are applied on the fly, no game restart required.
+
+Requires the Reloaded.Memory.SigScan.ReloadedII library mod (ships with Reloaded-II).
+No game files are modified: the mod only multiplies values in the game's memory and can be
+switched off at any moment.
+
+Source code (shared by both versions, C#, .NET 7) is in the "Исходники" folder of this archive
+and in the GitHub repository. Pick the language when building:
+
+    dotnet build -c Release                  (Russian)
+    dotnet build -c Release -p:ModLang=EN    (English)
